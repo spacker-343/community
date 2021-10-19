@@ -29,6 +29,8 @@ public class HomeController {
     public String getIndexPage(Model model, Page page) {
         //方法参数，都是由dispatcherServlet帮忙初始化的
         //所以这个page已经被装在model里了
+
+        //为page赋值，方便调用page里的函数
         page.setRows(discussPostService.findDiscussPostRows(0));
         page.setPath("/index");
 

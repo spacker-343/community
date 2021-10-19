@@ -23,7 +23,8 @@
         select <include refid="selectFields"></include> from user where email = #{email}
     </select>
 
-    <insert id="insertUser" parameterType="User">
+    <!--keyProperty: 反向的向内存中的对象注入数据库的自增字段id-->
+    <insert id="insertUser" keyProperty="id" parameterType="User">
         insert into user (<include refid="insertFields"></include>)
         values(#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
     </insert>
