@@ -25,26 +25,26 @@ public class CommunityUtil {
     }
 
     // 获得json字符串
-    public static String getJSONString(int code, String msg, Map<String, Object> map){
+    public static String getJSONString(int code, String msg, Map<String, Object> map) {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", msg);
-        if(map!=null){
-            Iterator itr=map.entrySet().iterator();
-            while(itr.hasNext()){
-                Map.Entry entry = (Map.Entry)itr.next();
-                json.put((String)entry.getKey(), entry.getValue());
+        if (map != null) {
+            Iterator itr = map.entrySet().iterator();
+            while (itr.hasNext()) {
+                Map.Entry entry = (Map.Entry) itr.next();
+                json.put((String) entry.getKey(), entry.getValue());
             }
         }
         return json.toJSONString();
     }
 
     // 重载一下
-    public static String getJSONString(int code, String msg){
+    public static String getJSONString(int code, String msg) {
         return getJSONString(code, msg, null);
     }
 
-    public static String getJSONString(int code){
+    public static String getJSONString(int code) {
         return getJSONString(code, null, null);
     }
 

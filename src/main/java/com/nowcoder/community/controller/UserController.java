@@ -29,7 +29,7 @@ import java.io.OutputStream;
 @RequestMapping("/user")
 public class UserController {
 
-    private static final Logger logger= LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Value("${community.path.upload}")
     private String uploadPath;
@@ -48,52 +48,51 @@ public class UserController {
 
     // 登录才可以访问该路径
     @LoginRequired
-    @RequestMapping(path="/setting", method= RequestMethod.GET)
-    public String getSettingPage(){
+    @RequestMapping(path = "/setting", method = RequestMethod.GET)
+    public String getSettingPage() {
         return "/site/setting";
     }
 
     /**
-     *
      * @param headerImage 如果是多个图片，这里要写数组,这里要和form表单input的name属性一致
      * @param model
      * @return
      */
     @LoginRequired
-    @RequestMapping(path="/upload", method= RequestMethod.POST)
-    public String uploadHeader(MultipartFile headerImage, Model model){
-        if(headerImage==null){
+    @RequestMapping(path = "/upload", method = RequestMethod.POST)
+    public String uploadHeader(MultipartFile headerImage, Model model) {
+        if (headerImage == null) {
             model.addAttribute("error", "您还没有选择图片");
             return "/site/setting";
         }
 
         // 需要修改用户上传文件的名字，因为可能很多人传相同名字的图片
-        String fileName=headerImage.getOriginalFilename();
+        String fileName = headerImage.getOriginalFilename();
 
-        String suffix=fileName.substring(fileName.lastIndexOf("."));
+        String suffix = fileName.substring(fileName.lastIndexOf("."));
         // 文件格式不正确应该也加上判断文件后缀是否图片文件的后缀 &&
-        if(StringUtils.isBlank(suffix)){
+        if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "文件格式不正确");
             return "/site/setting";
         }
 
         // 生成文件随机名加后缀
-        fileName= CommunityUtil.generateUUID()+suffix;
+        fileName = CommunityUtil.generateUUID() + suffix;
 
         // 传输进指定的文件夹名+文件名
-        File dest=new File(uploadPath+"/"+fileName);
+        File dest = new File(uploadPath + "/" + fileName);
         try {
             headerImage.transferTo(dest);
         } catch (IOException e) {
-            logger.error("上传文件失败"+e.getMessage());
+            logger.error("上传文件失败" + e.getMessage());
             throw new RuntimeException("上传文件失败,服务器发生异常!", e);
         }
 
         // 更新当前用户的头像的路径（web访问路径）
         // http://localhost:8080/community/user/header/xxx.png
         // 每访问一个controller方法，拦截器就会在threadLocal里保存一个user对象
-        User user=hostHolder.getUser();
-        String headerUrl=domain+contextPath+"/user/header/"+fileName;
+        User user = hostHolder.getUser();
+        String headerUrl = domain + contextPath + "/user/header/" + fileName;
         // 新头像的路径
         userService.updateHeader(user.getId(), headerUrl);
 
@@ -105,58 +104,58 @@ public class UserController {
      * 从服务器上获取自己上传的头像
      * 可以查看别人的头像，所以不需要loginrequired
      */
-    @RequestMapping(path="/header/{fileName}", method=RequestMethod.GET)
-    public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response){
+    @RequestMapping(path = "/header/{fileName}", method = RequestMethod.GET)
+    public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response) {
         // 服务器存放文件的路径
-        String filePath=uploadPath+"/"+fileName;
+        String filePath = uploadPath + "/" + fileName;
         // 文件后缀
         // 响应格式“image/jpg”或者'image/png'等等
-        String suffix=fileName.substring(fileName.lastIndexOf(".")+1);
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
 
         // 响应图片
         // 图片路径
-        response.setContentType("image/"+suffix);
+        response.setContentType("image/" + suffix);
         try (
                 FileInputStream fis = new FileInputStream(filePath);
-                OutputStream os=response.getOutputStream();
-                ){
+                OutputStream os = response.getOutputStream();
+        ) {
             // 使用缓存
-            byte[] buffer=new byte[1024];
+            byte[] buffer = new byte[1024];
 
             // 返回读入缓冲区的总字节数，如果由于已到达文件末尾而没有更多数据，则为-1
-            int b=0;
-            while((b=fis.read(buffer))!=-1){
+            int b = 0;
+            while ((b = fis.read(buffer)) != -1) {
                 os.write(buffer, 0, b);
             }
-        }catch (IOException e){
-            logger.error("读取头像失败"+e.getMessage());
+        } catch (IOException e) {
+            logger.error("读取头像失败" + e.getMessage());
         }
     }
 
-    @RequestMapping(path="/updatepassword", method = RequestMethod.POST)
-    public String updatePassword(String oldPassword, String newPassword, Model model){
+    @RequestMapping(path = "/updatepassword", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword, String newPassword, Model model) {
         // 验证新密码或旧密码是否为空，即是前端验证了一道，我们也要防止专业人士来搞破坏
-        if(StringUtils.isBlank(oldPassword)){
+        if (StringUtils.isBlank(oldPassword)) {
             model.addAttribute("oldPasswordError", "原密码不能为空");
             return "/site/setting";
         }
-        if(StringUtils.isBlank(newPassword)){
+        if (StringUtils.isBlank(newPassword)) {
             model.addAttribute("newPasswordError", "新密码不能为空");
             return "/site/setting";
         }
 
         // 验证原密码是否正确
         // 获取user
-        User user=hostHolder.getUser();
+        User user = hostHolder.getUser();
         // 对传进来的旧密码加上盐后进行md5加密,然后进行匹配
-        String md5=CommunityUtil.md5(oldPassword+user.getSalt());
-        if(!user.getPassword().equals(md5)){
+        String md5 = CommunityUtil.md5(oldPassword + user.getSalt());
+        if (!user.getPassword().equals(md5)) {
             model.addAttribute("oldPasswordError", "旧密码不正确");
             return "/site/setting";
         }
 
         // 新密码加上盐后进行md5加密
-        newPassword=CommunityUtil.md5(newPassword+user.getSalt());
+        newPassword = CommunityUtil.md5(newPassword + user.getSalt());
 
         // 修改密码
         userService.updatePassword(user.getId(), newPassword);

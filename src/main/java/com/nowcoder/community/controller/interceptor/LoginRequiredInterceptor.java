@@ -24,8 +24,8 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 判断拦截到的是否是Controller中的方法，因为有可能拦截到静态资源
-        if(handler instanceof HandlerMethod){
-            HandlerMethod handlerMethod=(HandlerMethod) handler;
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
             // 因为HandlerMethod封装有关由方法和bean组成的处理程序方法的信息
 
             // 老师写的方法
@@ -40,9 +40,9 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
 
             // 我看了源码之后觉得可以这样写
             // 如果存在方法注解应该返回true，不存在
-            if(handlerMethod.hasMethodAnnotation(LoginRequired.class)&&hostHolder.getUser()==null){
+            if (handlerMethod.hasMethodAnnotation(LoginRequired.class) && hostHolder.getUser() == null) {
                 // 当方法上有@LoginRequired，且用户未登录，就重定向回登录页面
-                response.sendRedirect(request.getContextPath()+"/login");
+                response.sendRedirect(request.getContextPath() + "/login");
                 // 不用往后执行了
                 return false;
             }

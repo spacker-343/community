@@ -16,18 +16,18 @@ public class AlphaInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(AlphaInterceptor.class);
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.debug("preHandle: " + handler.toString());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        logger.debug("postHandle: "+handler.toString());
+        logger.debug("postHandle: " + handler.toString());
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        logger.debug("aftercompletion: "+handler.toString());
+        logger.debug("aftercompletion: " + handler.toString());
     }
 }
