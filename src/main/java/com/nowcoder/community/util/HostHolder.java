@@ -17,6 +17,12 @@ public class HostHolder {
         users.set(user);
     }
 
+    /**
+     * ThreadLocal 只能存放一个entry，即key为当前线程，value为你存放的值
+     * 通过entry.value来获取值
+     * ThreadLocalMap.Entry e = map.getEntry(this);
+     * e.value
+     */
     public User getUser(){
         return users.get();
     }
