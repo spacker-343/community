@@ -178,15 +178,40 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
+    /**
+     * 注销用户凭证，把数据库中凭证状态设置为1
+     * @param ticket
+     */
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
     }
 
+    /**
+     * 查询凭证
+     * @param ticket
+     * @return
+     */
     public LoginTicket findLoginTicket(String ticket){
         return loginTicketMapper.selectByTicket(ticket);
     }
 
+    /**
+     * 更新头像路径
+     * @param userId
+     * @param headerUrl 新的头像路径
+     * @return
+     */
     public int updateHeader(int userId, String headerUrl){
         return userMapper.updateHeader(userId, headerUrl);
+    }
+
+
+    /**
+     * 修改密码
+     * @param id 用户id
+     * @param newPassword 新密码
+     */
+    public void updatePassword(int id , String newPassword){
+        userMapper.updatePassword(id, newPassword);
     }
 }

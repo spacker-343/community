@@ -4,6 +4,7 @@ import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +126,38 @@ public class UserController {
         }catch (IOException e){
             logger.error("读取头像失败"+e.getMessage());
         }
+    }
+
+    @RequestMapping(path="/updatepassword", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword, String newPassword, Model model){
+        // 验证新密码或旧密码是否为空，即是前端验证了一道，我们也要防止专业人士来搞破坏
+        if(StringUtils.isBlank(oldPassword)){
+            model.addAttribute("oldPasswordError", "原密码不能为空");
+            return "/site/setting";
+        }
+        if(StringUtils.isBlank(newPassword)){
+            model.addAttribute("newPasswordError", "新密码不能为空");
+            return "/site/setting";
+        }
+
+        // 验证原密码是否正确
+        // 获取user
+        User user=hostHolder.getUser();
+        // 对传进来的旧密码加上盐后进行md5加密,然后进行匹配
+        String md5=CommunityUtil.md5(oldPassword+user.getSalt());
+        if(!user.getPassword().equals(md5)){
+            model.addAttribute("oldPasswordError", "旧密码不正确");
+            return "/site/setting";
+        }
+
+        // 新密码加上盐后进行md5加密
+        newPassword=CommunityUtil.md5(newPassword+user.getSalt());
+
+        // 修改密码
+        userService.updatePassword(user.getId(), newPassword);
+
+        // 注销当前用户
+        return "redirect:/logout";
     }
 
 }
