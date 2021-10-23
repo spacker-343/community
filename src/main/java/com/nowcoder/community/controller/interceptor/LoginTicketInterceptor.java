@@ -44,10 +44,17 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 hostHolder.setUser(user);
             }
         }
-
         return true;
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @param modelAndView 把user传进model里，然后html页面就可验证用户是否登录，同时还可以从中取出信息
+     * @throws Exception
+     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         User user=hostHolder.getUser();

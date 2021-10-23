@@ -1,5 +1,6 @@
 package com.nowcoder.community.controller;
 
+import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
@@ -45,6 +46,8 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    // 登录才可以访问该路径
+    @LoginRequired
     @RequestMapping(path="/setting", method= RequestMethod.GET)
     public String getSettingPage(){
         return "/site/setting";
@@ -56,6 +59,7 @@ public class UserController {
      * @param model
      * @return
      */
+    @LoginRequired
     @RequestMapping(path="/upload", method= RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model){
         if(headerImage==null){
@@ -99,6 +103,7 @@ public class UserController {
     /**
      * th:src就会请求这个方法
      * 从服务器上获取自己上传的头像
+     * 可以查看别人的头像，所以不需要loginrequired
      */
     @RequestMapping(path="/header/{fileName}", method=RequestMethod.GET)
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response){
