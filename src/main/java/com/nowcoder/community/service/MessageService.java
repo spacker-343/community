@@ -38,12 +38,22 @@ public class MessageService {
         return messageMapper.selectLetterUnreadCount(userId, conversationId);
     }
 
+    /**
+     * 添加消息
+     * @param message
+     * @return
+     */
     public int addMessage(Message message) {
         message.setContent(HtmlUtils.htmlEscape(message.getContent()));
         message.setContent(sensitiveFilter.filter(message.getContent()));
         return messageMapper.insertMessage(message);
     }
 
+    /**
+     * 读取消息，修改消息已读
+     * @param ids
+     * @return
+     */
     public int readMessage(List<Integer> ids) {
         return messageMapper.updateStatus(ids, 1);
     }

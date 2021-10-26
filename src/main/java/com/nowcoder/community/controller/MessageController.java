@@ -96,6 +96,7 @@ public class MessageController {
 
         // 设置已读
         List<Integer> ids = getLetterIds(letterList);
+        // 如果没有未读消息则可以不用发送
         if (!ids.isEmpty()) {
             messageService.readMessage(ids);
         }
@@ -120,6 +121,11 @@ public class MessageController {
         }
     }
 
+    /**
+     * 这个方法为了辅助处理未读消息，方便把未读消息设置成已读
+     * @param letterList
+     * @return
+     */
     private List<Integer> getLetterIds(List<Message> letterList) {
         List<Integer> ids = new ArrayList<>();
 
@@ -134,27 +140,37 @@ public class MessageController {
         return ids;
     }
 
-//    @RequestMapping(path = "/letter/send", method = RequestMethod.POST)
-//    @ResponseBody
-//    public String sendLetter(String toName, String content) {
-//        User target = userService.findUserByName(toName);
-//        if (target == null) {
-//            return CommunityUtil.getJSONString(1, "目标用户不存在!");
-//        }
-//
-//        Message message = new Message();
-//        message.setFromId(hostHolder.getUser().getId());
-//        message.setToId(target.getId());
-//        if (message.getFromId() < message.getToId()) {
-//            message.setConversationId(message.getFromId() + "_" + message.getToId());
-//        } else {
-//            message.setConversationId(message.getToId() + "_" + message.getFromId());
-//        }
-//        message.setContent(content);
-//        message.setCreateTime(new Date());
-//        messageService.addMessage(message);
-//
-//        return CommunityUtil.getJSONString(0);
-//    }
+    /**
+     * 异步发送消息
+     * @param toName
+     * @param content
+     * @return 返回消息给前端，表示添加成功没有
+     */
+    @RequestMapping(path = "/letter/send", method = RequestMethod.POST)
+    @ResponseBody
+    public String sendLetter(String toName, String content) {
+        User target = userService.findUserByName(toName);
+        // 判断用户是否存在
+        if (target == null) {
+            return CommunityUtil.getJSONString(1, "目标用户不存在!");
+        }
+
+        Message message = new Message();
+        message.setFromId(hostHolder.getUser().getId());
+        message.setToId(target.getId());
+
+        // 让数据库内的conversation_id字段保持，小的数字在前，大的数字在后这一格式
+        if (message.getFromId() < message.getToId()) {
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        } else {
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+        message.setContent(content);
+        message.setCreateTime(new Date());
+        // 添加消息
+        messageService.addMessage(message);
+
+        return CommunityUtil.getJSONString(0);
+    }
 
 }
