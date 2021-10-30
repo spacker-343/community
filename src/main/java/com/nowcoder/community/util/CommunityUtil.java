@@ -29,6 +29,7 @@ public class CommunityUtil {
         JSONObject json = new JSONObject();
         json.put("code", code);
         json.put("msg", msg);
+        // 不把map直接序列化的原因是，json里还要添加几个数据
         if (map != null) {
             Iterator itr = map.entrySet().iterator();
             while (itr.hasNext()) {

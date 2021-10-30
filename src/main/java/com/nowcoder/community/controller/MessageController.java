@@ -73,6 +73,7 @@ public class MessageController {
      */
     @RequestMapping(path = "/letter/detail/{conversationId}", method = RequestMethod.GET)
     public String getLetterDetail(@PathVariable("conversationId") String conversationId, Page page, Model model) {
+
         // 分页信息
         page.setLimit(5);
         page.setPath("/letter/detail/" + conversationId);
@@ -149,6 +150,10 @@ public class MessageController {
     @RequestMapping(path = "/letter/send", method = RequestMethod.POST)
     @ResponseBody
     public String sendLetter(String toName, String content) {
+        /*
+        Integer.valueOf("abc");
+        模拟异常
+         */
         User target = userService.findUserByName(toName);
         // 判断用户是否存在
         if (target == null) {
