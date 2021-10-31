@@ -66,6 +66,7 @@ public class MessageController {
 
     /**
      * 显示详细消息
+     *
      * @param conversationId
      * @param page
      * @param model
@@ -107,7 +108,8 @@ public class MessageController {
 
     /**
      * 利用当前登录用户，来判断谁是登录方，谁是接收方
-     * @param conversationId  111_112 , 两个会话用户是小的数字在前，大的数字在后
+     *
+     * @param conversationId 111_112 , 两个会话用户是小的数字在前，大的数字在后
      * @return 返回消息的发送方，因为当前登录用户是消息接受方
      */
     private User getLetterTarget(String conversationId) {
@@ -124,6 +126,7 @@ public class MessageController {
 
     /**
      * 这个方法为了辅助处理未读消息，方便把未读消息设置成已读
+     *
      * @param letterList
      * @return
      */
@@ -143,6 +146,7 @@ public class MessageController {
 
     /**
      * 异步发送消息
+     *
      * @param toName
      * @param content
      * @return 返回消息给前端，表示添加成功没有

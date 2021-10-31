@@ -26,7 +26,6 @@ public class ServiceLogAspect {
     }
 
     /**
-     *
      * @param joinPoint 织入代码的位置
      */
     @Before("pointcut()")

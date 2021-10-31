@@ -40,6 +40,7 @@ public class MessageService {
 
     /**
      * 添加消息
+     *
      * @param message
      * @return
      */
@@ -51,6 +52,7 @@ public class MessageService {
 
     /**
      * 读取消息，修改消息已读
+     *
      * @param ids
      * @return
      */

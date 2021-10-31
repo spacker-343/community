@@ -65,6 +65,7 @@ public class DiscussPostService {
 
     /**
      * 通过用户id查帖子
+     *
      * @param id
      * @return
      */
@@ -74,6 +75,7 @@ public class DiscussPostService {
 
     /**
      * 更新帖子数量
+     *
      * @param id
      * @param commentCount
      * @return

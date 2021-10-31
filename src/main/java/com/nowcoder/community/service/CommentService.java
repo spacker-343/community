@@ -30,6 +30,7 @@ public class CommentService implements CommunityConstant {
 
     /**
      * 回复总数
+     *
      * @param entityType
      * @param entityId
      * @return

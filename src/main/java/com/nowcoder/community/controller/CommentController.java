@@ -24,9 +24,8 @@ public class CommentController {
     private HostHolder hostHolder;
 
     /**
-     *
      * @param discussPostId 用户id，通过请求获取
-     * @param comment 评论
+     * @param comment       评论
      * @return
      */
     @RequestMapping(path = "/add/{discussPostId}", method = RequestMethod.POST)

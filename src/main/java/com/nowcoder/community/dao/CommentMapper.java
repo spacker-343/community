@@ -10,6 +10,7 @@ public interface CommentMapper {
 
     /**
      * 查询多条记录
+     *
      * @param entityType
      * @param entityId
      * @param offset
@@ -22,6 +23,7 @@ public interface CommentMapper {
 
     /**
      * 增加评论
+     *
      * @param comment
      * @return
      */
