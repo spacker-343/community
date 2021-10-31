@@ -37,10 +37,10 @@ public class LikeController {
      */
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String like(int entityType, int entityId, HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException {
+    public String like(int entityType, int entityId, int entityUserId) {
         // 当前登录用户点赞
         User user = hostHolder.getUser();
-        likeService.like(user.getId(), entityType, entityId);
+        likeService.like(user.getId(), entityType, entityId, entityUserId);
 
         // 数量
         long likeCount = likeService.findEntityLikeCount(entityType, entityId);

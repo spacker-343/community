@@ -2,6 +2,7 @@ package com.nowcoder.community.controller;
 
 import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
+import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
@@ -45,6 +46,9 @@ public class UserController {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
 
     // 登录才可以访问该路径
     @LoginRequired
@@ -132,6 +136,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 这是我自己写的方法
+     * @param oldPassword
+     * @param newPassword
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/updatepassword", method = RequestMethod.POST)
     public String updatePassword(String oldPassword, String newPassword, Model model) {
         // 验证新密码或旧密码是否为空，即是前端验证了一道，我们也要防止专业人士来搞破坏
@@ -164,4 +175,20 @@ public class UserController {
         return "redirect:/logout";
     }
 
+    // 个人主页
+    @RequestMapping(path = "/profile/{userId}", method = RequestMethod.GET)
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
+        User user = userService.findUserById(userId);
+        if (user == null) {
+            throw new RuntimeException("该用户不存在!");
+        }
+
+        // 用户
+        model.addAttribute("user", user);
+        // 点赞数量
+        int likeCount = likeService.findUserLikeCount(userId);
+        model.addAttribute("likeCount", likeCount);
+
+        return "/site/profile";
+    }
 }
