@@ -41,6 +41,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 // 信息会在模板或服务器中要用
                 // 在本次请求中持有用户
                 // 线程隔离用ThreadLocal
+                // hostHolder代替了Session
                 hostHolder.setUser(user);
             }
         }

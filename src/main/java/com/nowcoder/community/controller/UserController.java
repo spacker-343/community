@@ -101,6 +101,7 @@ public class UserController implements CommunityConstant {
         // http://localhost:8080/community/user/header/xxx.png
         // 每访问一个controller方法，拦截器就会在threadLocal里保存一个user对象
         User user = hostHolder.getUser();
+        // 其实就是下面的getHeader方法的访问路径
         String headerUrl = domain + contextPath + "/user/header/" + fileName;
         // 新头像的路径
         userService.updateHeader(user.getId(), headerUrl);

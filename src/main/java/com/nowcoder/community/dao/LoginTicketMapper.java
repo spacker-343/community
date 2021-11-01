@@ -3,7 +3,9 @@ package com.nowcoder.community.dao;
 import com.nowcoder.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
+// 从redis中查询数据
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
 
 
