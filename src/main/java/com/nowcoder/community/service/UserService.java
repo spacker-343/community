@@ -51,6 +51,7 @@ public class UserService implements CommunityConstant {
 
     /**
      * 从缓存中取数据
+     *
      * @param id
      * @return
      */
@@ -240,7 +241,6 @@ public class UserService implements CommunityConstant {
     }
 
 
-
     /**
      * 修改密码
      *
@@ -263,6 +263,7 @@ public class UserService implements CommunityConstant {
 
     // 2.取不到时初始化缓存数据
     private User initCache(int userId) {
+        // 把用户数据放入redis中，提高读取效率，减轻数据库负担
         User user = userMapper.selectById(userId);
         String redisKey = RedisKeyUtil.getUserKey(userId);
         redisTemplate.opsForValue().set(redisKey, user, 3600, TimeUnit.SECONDS);

@@ -150,7 +150,7 @@ public class LoginController implements CommunityConstant {
      * @param code       验证码
      * @param rememberme 是否记住我
      * @param model
-     * @param //session    获取生成的验证码
+     * @param //session  获取生成的验证码
      * @param response   给客户端设置cookie
      * @return
      */

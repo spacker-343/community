@@ -37,6 +37,10 @@ public class ServiceLogAspect {
         // 返回：
         // 当前绑定到线程的 RequestAttributes，如果没有绑定，则为null
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if (attributes == null) {
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

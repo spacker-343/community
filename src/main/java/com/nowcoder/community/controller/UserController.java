@@ -144,6 +144,7 @@ public class UserController implements CommunityConstant {
 
     /**
      * 这是我自己写的方法
+     *
      * @param oldPassword
      * @param newPassword
      * @param model

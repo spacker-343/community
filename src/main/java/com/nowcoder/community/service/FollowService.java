@@ -22,9 +22,10 @@ public class FollowService implements CommunityConstant {
 
     /**
      * 关注
-     * @param userId 当前用户
+     *
+     * @param userId     当前用户
      * @param entityType 实体类型
-     * @param entityId 关注者id
+     * @param entityId   关注者id
      */
     public void follow(int userId, int entityType, int entityId) {
         redisTemplate.execute(new SessionCallback() {
@@ -46,9 +47,10 @@ public class FollowService implements CommunityConstant {
 
     /**
      * 取消关注
-     * @param userId 当前用户
+     *
+     * @param userId     当前用户
      * @param entityType 实体类型
-     * @param entityId 关注者id
+     * @param entityId   关注者id
      */
     public void unfollow(int userId, int entityType, int entityId) {
         redisTemplate.execute(new SessionCallback() {
@@ -69,7 +71,8 @@ public class FollowService implements CommunityConstant {
 
     /**
      * 查询关注的实体的数量
-     * @param userId 当前用户
+     *
+     * @param userId     当前用户
      * @param entityType 实体类型
      * @return 数量
      */
@@ -92,6 +95,7 @@ public class FollowService implements CommunityConstant {
 
     /**
      * 关注列表
+     *
      * @param userId
      * @param offset
      * @param limit
@@ -121,9 +125,10 @@ public class FollowService implements CommunityConstant {
 
     /**
      * 粉丝列表，limit做分页处理
+     *
      * @param userId
      * @param offset 偏移量
-     * @param limit 一页几条
+     * @param limit  一页几条
      * @return
      */
     public List<Map<String, Object>> findFollowers(int userId, int offset, int limit) {
