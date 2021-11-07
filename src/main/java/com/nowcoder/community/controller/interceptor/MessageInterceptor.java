@@ -27,6 +27,7 @@ public class MessageInterceptor implements HandlerInterceptor {
 
     /**
      * 只要有头部的页面都要显示消息数量，因此使用拦截器来查这个消息数量
+     *
      * @param request
      * @param response
      * @param handler

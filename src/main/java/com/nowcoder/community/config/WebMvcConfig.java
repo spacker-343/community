@@ -21,8 +21,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private LoginTicketInterceptor loginTicketInterceptor;
 
-    @Autowired
-    private LoginRequiredInterceptor loginRequiredInterceptor;
+//    @Autowired
+//    private LoginRequiredInterceptor loginRequiredInterceptor;
 
     @Autowired
     private MessageInterceptor messageInterceptor;
@@ -40,16 +40,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 // 首先要排除掉对静态资源的拦截，排除访问的路径
                 .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
 
-        // 登录
-        registry.addInterceptor(loginRequiredInterceptor)
-                // 首先要排除掉对静态资源的拦截，排除访问的路径
-                .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png ", "/**/*.jpg", "/**/*.jpeg ");
+        // 改用springsecurity
+//        // 登录
+//        registry.addInterceptor(loginRequiredInterceptor)
+//                // 首先要排除掉对静态资源的拦截，排除访问的路径
+//                .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png ", "/**/*.jpg", "/**/*.jpeg ");
 
         registry.addInterceptor(messageInterceptor)
                 // 首先要排除掉对静态资源的拦截，排除访问的路径
                 .excludePathPatterns("/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
-
-
-
     }
 }
