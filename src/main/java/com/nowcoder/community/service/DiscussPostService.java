@@ -84,5 +84,24 @@ public class DiscussPostService {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 
+    /**
+     * 0-普通 1-置顶
+     * @param id
+     * @param type
+     * @return
+     */
+    public int updateType(int id, int type) {
+        return discussPostMapper.updateType(id, type);
+    }
 
+    /**
+     * 0-正常; 1-精华; 2-拉黑;
+     * 拉黑即是管理员对帖子的删除
+     * @param id
+     * @param status
+     * @return
+     */
+    public int updateStatus(int id, int status) {
+        return discussPostMapper.updateStatus(id, status);
+    }
 }
