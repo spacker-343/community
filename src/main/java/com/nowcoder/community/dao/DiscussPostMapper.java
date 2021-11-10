@@ -12,6 +12,7 @@ public interface DiscussPostMapper {
     /**
      * 返回所有帖子
      * 在第七章中增加了帖子的分数，因此新增参数orderMode,用来按分数进行排序
+     * 实际上就是考得order by score desc
      * @param userId 用户id，用来查询用户的帖子
      * @param offset limit 开始行号
      * @param limit  每页显示数
