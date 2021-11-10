@@ -49,6 +49,12 @@ public class ShareController implements CommunityConstant {
         // 文件名
         String fileName = CommunityUtil.generateUUID();
 
+        /*
+        生成长图本身就是异步的，用户需不要知道生成长图是否成功，
+        生成长图失败，日志只记录在logger里，也就是只有服务器拥有者才知道
+        如果想要用户知道是否生成成功，只能等生成长图完毕了，当然这肯定很耗时
+         */
+
         // 异步生成长图
         Event event = new Event()
                 .setTopic(TOPIC_SHARE)
