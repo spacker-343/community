@@ -68,6 +68,10 @@ public interface CommunityConstant {
      */
     String TOPIC_DELETE = "delete";
 
+    /**
+     * 主题: 分享
+     */
+    String TOPIC_SHARE = "share";
 
     /**
      * 系统用户ID
@@ -89,4 +93,6 @@ public interface CommunityConstant {
      * 权限: 版主
      */
     String AUTHORITY_MODERATOR = "moderator";
+
+
 }
