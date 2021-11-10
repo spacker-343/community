@@ -14,7 +14,10 @@ public class RedisKeyUtil {
     // 通过ip统计网站访问人数（Unique Visitor）,使用hyperloglog
     private static final String PREFIX_UV = "uv";
     // 统计注册用户的活跃人数，访问了一次本网站，被认定为为活跃，使用bitmap
+    // daliy access user
     private static final String PREFIX_DAU = "dau";
+    private static final String PREFIX_POST = "post";
+
 
     /**
      * 评论评论entityId是该条评论的entityId，回复的entityId是评论数据库的自增字段id
@@ -83,5 +86,10 @@ public class RedisKeyUtil {
     // 区间活跃用户
     public static String getDAUKey(String startDate, String endDate) {
         return PREFIX_DAU + SPLIT + startDate + SPLIT + endDate;
+    }
+
+    // 帖子分数
+    public static String getPostScoreKey() {
+        return PREFIX_POST + SPLIT + "score";
     }
 }

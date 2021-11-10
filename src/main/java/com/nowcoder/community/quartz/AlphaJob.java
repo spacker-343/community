@@ -9,5 +9,6 @@ public class AlphaJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         System.out.println(Thread.currentThread().getName() + ": execute a quartz job.");
     }
+
 }
 

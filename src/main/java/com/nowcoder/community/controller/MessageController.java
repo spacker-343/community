@@ -63,7 +63,9 @@ public class MessageController implements CommunityConstant {
         // 查询未读消息数量
         int letterUnreadCount = messageService.findLetterUnreadCount(user.getId(), null);
         model.addAttribute("letterUnreadCount", letterUnreadCount);
-
+        // 系统通知
+        int noticeUnreadCount = messageService.findNoticeUnreadCount(user.getId(), null);
+        model.addAttribute("noticeUnreadCount", noticeUnreadCount);
         return "/site/letter";
     }
 

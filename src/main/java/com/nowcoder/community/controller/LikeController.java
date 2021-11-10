@@ -7,7 +7,9 @@ import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
+import com.nowcoder.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +32,8 @@ public class LikeController implements CommunityConstant {
     @Autowired
     private EventProducer eventProducer;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 进行点赞
@@ -64,6 +68,15 @@ public class LikeController implements CommunityConstant {
                     .setEntityUserId(entityUserId)
                     .setData("postId", postId);
             eventProducer.fireEvent(event);
+        }
+
+        if(entityType == ENTITY_TYPE_POST) {
+            // 计算帖子分数
+            // job中会取出帖子id并计算帖子分数，依赖的是redisTemplate.boundSetOps(redisKey)
+            // 所以我们只需要往redisKey中存帖子id，就会再一次计算帖子分数
+            // 点赞数包含在帖子分数里，因此需要进行更新
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(redisKey, postId);
         }
 
         return CommunityUtil.getJSONString(0, null, map);

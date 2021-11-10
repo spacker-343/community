@@ -11,13 +11,14 @@ public interface DiscussPostMapper {
 
     /**
      * 返回所有帖子
-     *
+     * 在第七章中增加了帖子的分数，因此新增参数orderMode,用来按分数进行排序
      * @param userId 用户id，用来查询用户的帖子
      * @param offset limit 开始行号
      * @param limit  每页显示数
+     * @param orderMode 1：按照分数排序，用在热度 0：不按分数排序
      * @return 返回分页后的帖子
      */
-    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit);
+    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit, int orderMode);
 
     /**
      * \@Param 注解用于给参数取别名
@@ -60,5 +61,7 @@ public interface DiscussPostMapper {
      * @return
      */
     int updateStatus(int id, int status);
+
+    int updateScore(int id, double score);
 
 }

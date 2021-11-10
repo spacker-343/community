@@ -133,4 +133,10 @@ public class RedisTests {
         System.out.println(result);
     }
 
+
+    @Test
+    public void myTest(){
+        System.out.println(60 % 32);
+        System.out.println(60 & 31);
+    }
 }
